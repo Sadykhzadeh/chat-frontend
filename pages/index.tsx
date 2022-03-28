@@ -1,22 +1,14 @@
 import type { NextPage } from 'next'
-import axios from 'axios'
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 import React from 'react'
-import Link from 'next/link'
+import { Container } from '@mui/material'
+import { Typography } from '@mui/material'
 
-const Home: NextPage = () => {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      {/* link to '/login' page */}
-      <Link href={'/login'}>Log In</Link>
-      <h1>Hello Next.js</h1>
-    </div>
-  )
-}
+const Home: NextPage = () => (
+  <Container component="main">
+    <Typography component="h1" variant="h4">
+      Hello, welcome to :Chat!
+    </Typography>
+  </Container>
+)
 
 export default Home
