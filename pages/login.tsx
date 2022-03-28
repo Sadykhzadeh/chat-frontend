@@ -10,38 +10,45 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import React from 'react';
+import * as Yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import FormHelperText from '@mui/material/FormHelperText';
 import { Alert, Snackbar } from '@mui/material';
 import { JWTRequest } from './../interfaces/logres/JWTRequest';
 
 const LogIn: NextPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .required('Email is required')
+      .email('Invalid email'),
+    password: Yup.string().required('Password is required')
+      .min(6, 'Password must be at least 6 characters').max(10, 'Password can have at most 10 characters'),
+  });
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const dataFromForm = new FormData(e.currentTarget);
-    try {
-      const JWTData = {
-        "username": dataFromForm.get('username') as string,
-        "password": dataFromForm.get('password') as string
-      } as JWTRequest;
-      await axios.post('api/login', JWTData).then(res => {
-        const { token } = res.data;
-        document.cookie = `token=${token}; secure; samesite;`;
-      });
-      await router.push('/');
-    } catch (error) {
-      await router.push('/login?error=true');
-    }
-    console.log({
-      username: dataFromForm.get('username'),
-      password: dataFromForm.get('password'),
-    });
+
+  const formOptions = { resolver: yupResolver(validationSchema) };
+
+  const { register, handleSubmit, reset, formState } = useForm(formOptions);
+  const { errors } = formState;
+
+  const onSubmit = async (data) => {
+    const JWTData = data as JWTRequest;
+    console.log(JWTData);
+    // try {
+    // await axios.post('api/login', JWTData).then(res => {
+    //   const { token } = res.data;
+    //   document.cookie = `token=${token}; secure; samesite;`;
+    // });
+    // await router.push('/');
+    //   return false;
+    // } catch (error) {
+    // await router.push('/login?error=true');
+    // }
   };
   return (
     <Container maxWidth="xs">
@@ -72,7 +79,7 @@ const LogIn: NextPage = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
@@ -80,10 +87,11 @@ const LogIn: NextPage = () => {
             id="username"
             label="Username"
             name="username"
-            autoComplete="username"
             autoFocus
-            onChange={(e) => setUsername(e.target.value)}
+            {...register('email')}
+            error={errors.email?.message.length > 0 ? true : false}
           />
+          <FormHelperText>{errors.email?.message}</FormHelperText>
           <TextField
             margin="normal"
             required
@@ -92,9 +100,10 @@ const LogIn: NextPage = () => {
             label="Password"
             type="password"
             id="password"
-            autoComplete="current-password"
-            onChange={(e) => setPassword(e.target.value)}
+            {...register('password')}
+            error={errors.password?.message.length > 0 ? true : false}
           />
+          <FormHelperText>{errors.password?.message}</FormHelperText>
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"

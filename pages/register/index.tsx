@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from 'next/Link';
 import Grid from '@mui/material/Grid';
@@ -38,12 +37,13 @@ const SignUp = () => {
   const { errors } = formState;
 
   const onSubmit = async (data) => {
-    const userRequest: UserRequest = data;
-    await axios.post('api/register', userRequest).then(res => {
-      const { token } = res.data;
-      document.cookie = `token=${token}; secure; samesite;`;
-    });
-    await router.push('/register/success');
+    const userRequest = data as UserRequest;
+    // await axios.post('api/register', userRequest).then(res => {
+    //   const { token } = res.data;
+    //   document.cookie = `token=${token}; secure; samesite;`;
+    // });
+    // await router.push('/register/success');
+    console.log(userRequest);
   };
 
   return (
