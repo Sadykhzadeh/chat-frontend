@@ -2,7 +2,7 @@ import '../styles/globals.css'
 import { CacheProvider, EmotionCache, ThemeProvider } from '@emotion/react'
 import theme from '../styles/theme';
 import darkTheme from '../styles/darkTheme';
-import { AppBar, Box, Button, createTheme, CssBaseline, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, Avatar, Box, Button, createTheme, CssBaseline, IconButton, Toolbar, Typography } from '@mui/material';
 import Link from 'next/Link';
 import Head from 'next/head';
 import ColorModeContext from "../styles/ColorModeContext";
@@ -30,7 +30,11 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+        setMode((prevMode) => {
+          const newMode = prevMode === 'light' ? 'dark' : 'light';
+          localStorage.setItem('theme', newMode);
+          return newMode;
+        });
       },
     }),
     [],
@@ -47,7 +51,7 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
         <title>:Chat!</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="theme-color" content="#000000" />
-        <link rel="icon" type="image/png" href="../favicon.ico" />
+        <link rel="icon" type="image/png" href="../logo.svg" />
       </Head>
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={whichTheme}>
@@ -65,9 +69,12 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
               <MenuIcon />
             </IconButton> */}
                 <Link href={"/"} passHref>
-                  <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
-                    :Chat!
-                  </Typography>
+                  <>
+                    <Avatar srcSet="../logo.svg" />
+                    <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
+                      :Chat!
+                    </Typography>
+                  </>
                 </Link>
                 {
                   (typeof window !== 'undefined') &&

@@ -2,8 +2,6 @@ import type { NextPage } from 'next'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from 'next/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,15 +10,17 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormHelperText from '@mui/material/FormHelperText';
 import { JWTRequest } from './../interfaces/logres/JWTRequest';
+import { Alert, AlertTitle, Slide, Snackbar } from '@mui/material';
 
 const LogIn: NextPage = () => {
   const router = useRouter();
+  const [open, setOpen] = useState(false);
   const validationSchema = Yup.object().shape({
     username: Yup.string()
       .required('Email is required')
@@ -44,6 +44,7 @@ const LogIn: NextPage = () => {
       });
       await router.push('/');
     } catch (error) {
+      setOpen(true);
     }
   };
 
@@ -62,6 +63,18 @@ const LogIn: NextPage = () => {
           alignItems: 'center',
         }}
       >
+        <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          TransitionComponent={(props) => <Slide direction='down' {...props} />}
+          onClose={(event: React.SyntheticEvent | Event, reason?: string) => setOpen(false)}
+        >
+          <Alert severity="warning" sx={{ marginBottom: 5 }}>
+            <AlertTitle>Invalid username or password. <br />Please try again.</AlertTitle>
+            If you have not registered yet, please click <Link href="/register"><a>here</a></Link> to register.
+          </Alert>
+        </Snackbar>
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
@@ -93,15 +106,12 @@ const LogIn: NextPage = () => {
             error={errors.password?.message.length > 0 ? true : false}
           />
           <FormHelperText>{errors.password?.message}</FormHelperText>
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            disabled={errors.username?.message.length + errors.password?.message.length > 0}
           >
             Sign In
           </Button>
