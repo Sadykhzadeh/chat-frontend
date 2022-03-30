@@ -1,6 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<br/>
+<p align="center">
+  <a href="https://github.com/Sadykhzadeh/chat-frontend">
+    <img src="https://raw.githubusercontent.com/Sadykhzadeh/chat-frontend/e892378843c6b1d711aef9be80232f08ea3e2d93/public/logo.svg" alt="Logo" width="80" height="80">
+  </a>
 
-## Getting Started
+  <h3 align="center">:Chat!</h3>
+
+  <p align="center">
+    Source code of :Chat! messenger's FrontEnd part (<a href="https://github.com/IZOBRETATEL777/chat">BackEnd is avaiable here<a>)
+    <br/>
+    <br/>
+    <!-- <a href="https://github.com/Sadykhzadeh/chat-frontend"><strong>Explore the docs »</strong></a> -->
+    <!-- <br/> -->
+    <!-- <br/> -->
+    <!-- <a href="https://github.com/Sadykhzadeh/chat-frontend">View Demo</a> -->
+    <!-- . -->
+    <a href="https://github.com/Sadykhzadeh/chat-frontend/issues">Report Bug</a>
+    .
+    <a href="https://github.com/Sadykhzadeh/chat-frontend/issues">Request Feature</a>
+  </p>
+</p>
+
+![Downloads](https://img.shields.io/github/downloads/Sadykhzadeh/chat-frontend/total) ![Contributors](https://img.shields.io/github/contributors/Sadykhzadeh/chat-frontend?color=dark-green) ![Forks](https://img.shields.io/github/forks/Sadykhzadeh/chat-frontend?style=social) ![Stargazers](https://img.shields.io/github/stars/Sadykhzadeh/chat-frontend?style=social) ![Issues](https://img.shields.io/github/issues/Sadykhzadeh/chat-frontend) ![License](https://img.shields.io/github/license/Sadykhzadeh/chat-frontend) 
+
+## Table Of Contents
+
+* [About the Project](#about-the-project)
+* [Built With](#built-with)
+* [Usage](#usage)
+* [Roadmap](#roadmap)
+* [Contributing](#contributing)
+* [Authors](#authors)
+* [Acknowledgements](#acknowledgements)
+
+## About The Project
+
+![Screen Shot](https://i.ibb.co/fYj73t6/image.png)
+
+Messenger. More detailed description is comming soon....
+
+## Built With
+
+1) <a href="typescriptlang.org"><3 TypeScript</a>
+2) <a href="mui.com">Material UI</a> (The React UI library you always wanted, ehehehe)
+3) <a href="nextjs.org">Next.JS</a> (framework based on <a href="https://reactjs.org/">React</a>)
+4) <a href="https://react-hook-form.com/">React Hook Form</a> — performant, flexible and extensible forms with easy-to-use validation.
+5) <a href="https://www.npmjs.com/package/tslint">TSLint</a> — rules to enforce consistent code style in TypeScript
+
+## Usage
 
 First, run the development server:
 
@@ -12,23 +59,36 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+To build and run the project, use commands below:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```bash
+npm run build && npm start
+# or
+yarn build && yarn start
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## Learn More
+## Roadmap
 
-To learn more about Next.js, take a look at the following resources:
+See the [open issues](https://github.com/Sadykhzadeh/chat-frontend/issues) for a list of proposed features (and known issues).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+* If you have suggestions for adding or removing projects, feel free to [open an issue](https://github.com/Sadykhzadeh/chat-frontend/issues/new) to discuss it, or directly create a pull request after you edit the *README.md* file with necessary changes.
+* Please make sure you check your spelling and grammar.
+* Create individual PR for each suggestion.
+* Please also read through the [Code Of Conduct](https://github.com/Sadykhzadeh/chat-frontend/blob/main/CODE_OF_CONDUCT.md) before posting your first idea as well.
 
-## Deploy on Vercel
+### Creating A Pull Request
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Authors
+
+* **[Azer Sadykhzadeh](https://github.com/Sadykhzadeh)** - *Frondend*
+* **[Roman Tolstosheyev](https://github.com/IZOBRETATEL777)** - *Backend*
