@@ -17,18 +17,24 @@ import axios from 'axios';
 import router from 'next/router';
 
 const SignUp = () => {
+
+  // if user is already logged in, redirect to home page
+  if (typeof window !== 'undefined' && localStorage.getItem('t')) {
+    router.push('/');
+  }
+
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required').min(1, 'Name should have at least 1 character').max(50, 'Name can have at most 50 character'),
     surname: Yup.string().required('Surname is required').min(1, 'Surname should have at least 1 character').max(50, 'Surname can have at most 50 character'),
-    email: Yup.string()
+    login: Yup.string()
       .required('Email is required')
       .email('Invalid email'),
     password: Yup.string().required('Password is required')
-      .min(6, 'Password must be at least 6 characters').max(10, 'Password can have at most 10 characters'),
+      .min(6, 'Password must be at least 6 characters').max(255, 'Password can have at most 255 characters'),
     confirmPassword: Yup.string()
       .required('Confirm Password is required')
       .oneOf([Yup.ref('password'), null], 'Passwords must match'),
-    phoneNumber: Yup.string().required('Phone number is required').min(1, 'Phone number must have at least 1 character').max(15, 'Phone number can have at most 10 characters')
+    phoneNumber: Yup.string().required('Phone number is required').min(9, 'Phone number must have at least 9 character').max(15, 'Phone number can have at most 10 characters')
   });
 
   const formOptions = { resolver: yupResolver(validationSchema) };
@@ -38,12 +44,13 @@ const SignUp = () => {
 
   const onSubmit = async (data) => {
     const userRequest = data as UserRequest;
-    // await axios.post('api/register', userRequest).then(res => {
-    //   const { token } = res.data;
-    //   document.cookie = `token=${token}; secure; samesite;`;
-    // });
-    // await router.push('/register/success');
     console.log(userRequest);
+    try {
+      await axios.post('api/register', userRequest);
+      await router.push('/register/success');
+    } catch (error) {
+      // console.log(userRequest, error.message);
+    }
   };
 
   return (
@@ -93,10 +100,10 @@ const SignUp = () => {
                 id="email"
                 label="Email Address"
                 name="email"
-                {...register('email')}
-                error={errors.email?.message.length > 0 ? true : false}
+                {...register('login')}
+                error={errors.login?.message.length > 0 ? true : false}
               />
-              <FormHelperText>{errors.email?.message}</FormHelperText>
+              <FormHelperText>{errors.login?.message}</FormHelperText>
             </Grid>
             <Grid item xs={12}>
               <TextField

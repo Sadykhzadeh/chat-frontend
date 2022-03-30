@@ -17,39 +17,41 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormHelperText from '@mui/material/FormHelperText';
-import { Alert, Snackbar } from '@mui/material';
 import { JWTRequest } from './../interfaces/logres/JWTRequest';
 
 const LogIn: NextPage = () => {
+  const router = useRouter();
   const validationSchema = Yup.object().shape({
-    email: Yup.string()
+    username: Yup.string()
       .required('Email is required')
       .email('Invalid email'),
     password: Yup.string().required('Password is required')
       .min(6, 'Password must be at least 6 characters').max(10, 'Password can have at most 10 characters'),
   });
-  const router = useRouter();
-
-
   const formOptions = { resolver: yupResolver(validationSchema) };
-
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
   const { errors } = formState;
 
-  const onSubmit = async (data) => {
+  const Submit = async (data) => {
     const JWTData = data as JWTRequest;
     console.log(JWTData);
-    // try {
-    // await axios.post('api/login', JWTData).then(res => {
-    //   const { token } = res.data;
-    //   document.cookie = `token=${token}; secure; samesite;`;
-    // });
-    // await router.push('/');
-    //   return false;
-    // } catch (error) {
-    // await router.push('/login?error=true');
-    // }
+    try {
+      await axios.post('api/login', JWTData).then(res => {
+        const { token, decryptionKey } = res.data;
+        // keep token in local storage
+        localStorage.setItem('t', token);
+        localStorage.setItem('d', decryptionKey);
+      });
+      await router.push('/');
+    } catch (error) {
+    }
   };
+
+  // if user is already logged in, redirect to home page
+  if (typeof window !== 'undefined' && localStorage.getItem('t')) {
+    router.push('/');
+  }
+
   return (
     <Container maxWidth="xs">
       <Box
@@ -60,26 +62,13 @@ const LogIn: NextPage = () => {
           alignItems: 'center',
         }}
       >
-        {router.query.error && (
-          <Snackbar open={true}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'center',
-            }}
-            autoHideDuration={5000}
-          >
-            <Alert severity="warning">
-              Wrong user or password! Try again.
-            </Alert>
-          </Snackbar>
-        )}
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit(Submit)} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
@@ -88,10 +77,10 @@ const LogIn: NextPage = () => {
             label="Username"
             name="username"
             autoFocus
-            {...register('email')}
-            error={errors.email?.message.length > 0 ? true : false}
+            {...register('username')}
+            error={errors.username?.message.length > 0 ? true : false}
           />
-          <FormHelperText>{errors.email?.message}</FormHelperText>
+          <FormHelperText>{errors.username?.message}</FormHelperText>
           <TextField
             margin="normal"
             required
@@ -130,7 +119,7 @@ const LogIn: NextPage = () => {
           </Grid>
         </Box>
       </Box>
-    </Container>
+    </Container >
   )
 }
 

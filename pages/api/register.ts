@@ -4,15 +4,16 @@ import { UserRequest } from '../../interfaces/logres/UserRequest';
 
 const register = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const { username, password, name, surname, phoneNumber } = req.body;
+    const { login, password, name, surname, phoneNumber } = req.body;
     const userData = {
-      "login": username,
+      "login": login,
       "password": password,
       "name": name,
       "surname": surname,
       "phoneNumber": phoneNumber,
     } as UserRequest;
-    const { data } = await mainServer.post('/user/register', userData);
+    console.log(userData);
+    const { data } = await mainServer.post('/users/register', userData);
     res.status(200).json(data);
   } catch (error) {
     res.status(401).json({

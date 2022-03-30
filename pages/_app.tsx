@@ -3,7 +3,7 @@ import { CacheProvider, EmotionCache, ThemeProvider } from '@emotion/react'
 import theme from '../styles/theme';
 import darkTheme from '../styles/darkTheme';
 import { AppBar, Box, Button, createTheme, CssBaseline, IconButton, Toolbar, Typography } from '@mui/material';
-import Link from 'next/link';
+import Link from 'next/Link';
 import Head from 'next/head';
 import ColorModeContext from "../styles/ColorModeContext";
 import createEmotionCache from "../styles/createEmotionCache";
@@ -13,7 +13,7 @@ import React from 'react';
 // import MenuIcon from '@material-ui/icons/Menu';
 
 // Client-side cache, shared for the whole session of the user in the browser.
-const clientSideEmotionCache = createEmotionCache();
+const clientSideCache = createEmotionCache();
 
 const SwitchTheme = () => {
   const colorMode = React.useContext(ColorModeContext);
@@ -25,7 +25,7 @@ const SwitchTheme = () => {
 }
 
 const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: any; }) => {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const { Component, emotionCache = clientSideCache, pageProps } = props;
   const [mode, setMode] = React.useState<'light' | 'dark'>('light');
   const colorMode = React.useMemo(
     () => ({
@@ -69,16 +69,33 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
                     :Chat!
                   </Typography>
                 </Link>
-                <Link href={'/login'} passHref>
-                  <Button color="inherit">
-                    Log In
-                  </Button>
-                </Link>
-                <Link href={'/register'} passHref>
-                  <Button color="inherit">
-                    Register
-                  </Button>
-                </Link>
+                {
+                  (typeof window !== 'undefined') &&
+                    localStorage.getItem('t') ? (
+                    <Button
+                      color="inherit"
+                      onClick={() => {
+                        localStorage.removeItem('t');
+                        localStorage.removeItem('d');
+                        window.location.reload();
+                      }}
+                    >
+                      Logout
+                    </Button>
+                  ) : (
+                    <>
+                      <Link href={'/login'} passHref>
+                        <Button color="inherit">
+                          Log In
+                        </Button>
+                      </Link>
+                      <Link href={'/register'} passHref>
+                        <Button color="inherit">
+                          Register
+                        </Button>
+                      </Link>
+                    </>
+                  )}
                 <SwitchTheme />
               </Toolbar>
             </AppBar>
