@@ -16,6 +16,7 @@ import React from 'react';
 const clientSideCache = createEmotionCache();
 
 const SwitchTheme = () => {
+  // color mode context for the theme provider
   const colorMode = React.useContext(ColorModeContext);
   return (
     <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode}>
@@ -25,8 +26,10 @@ const SwitchTheme = () => {
 }
 
 const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: any; }) => {
+  // main theme provider
   const { Component, emotionCache = clientSideCache, pageProps } = props;
   const [mode, setMode] = React.useState<'light' | 'dark'>('light');
+
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
@@ -40,6 +43,7 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
     [],
   );
 
+  // which theme to use based on the current color mode
   const whichTheme = React.useMemo(
     () => mode === 'light' ? createTheme(theme) : createTheme(darkTheme),
     [mode],

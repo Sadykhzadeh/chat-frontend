@@ -4,6 +4,8 @@ import { Typography } from '@mui/material'
 
 
 const Success: NextPage = () => (
+
+  // success page after registration
   <Container component="main" maxWidth="xs">
     <Typography component="h1" variant="h2">
       Success!

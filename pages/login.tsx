@@ -18,9 +18,14 @@ import FormHelperText from '@mui/material/FormHelperText';
 import { JWTRequest } from './../interfaces/logres/JWTRequest';
 import { Alert, AlertTitle, Slide, Snackbar } from '@mui/material';
 
+// Login page
 const LogIn: NextPage = () => {
   const router = useRouter();
+
+  // State for the snackbar
   const [open, setOpen] = useState(false);
+
+  // Validation schema for the form fields of the login page
   const validationSchema = Yup.object().shape({
     username: Yup.string()
       .required('Email is required')
@@ -28,10 +33,13 @@ const LogIn: NextPage = () => {
     password: Yup.string().required('Password is required')
       .min(6, 'Password must be at least 6 characters').max(10, 'Password can have at most 10 characters'),
   });
+
+  // Hook for the form
   const formOptions = { resolver: yupResolver(validationSchema) };
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
   const { errors } = formState;
 
+  // Function for the login button
   const Submit = async (data) => {
     const JWTData = data as JWTRequest;
     console.log(JWTData);
@@ -53,6 +61,7 @@ const LogIn: NextPage = () => {
     router.push('/');
   }
 
+  // JSX for the login page
   return (
     <Container maxWidth="xs">
       <Box

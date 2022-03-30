@@ -23,6 +23,7 @@ const SignUp = () => {
     router.push('/');
   }
 
+  // Validation schema for the form fields of the register page
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required').min(1, 'Name should have at least 1 character').max(50, 'Name can have at most 50 character'),
     surname: Yup.string().required('Surname is required').min(1, 'Surname should have at least 1 character').max(50, 'Surname can have at most 50 character'),
@@ -37,11 +38,13 @@ const SignUp = () => {
     phoneNumber: Yup.string().required('Phone number is required').min(9, 'Phone number must have at least 9 character').max(15, 'Phone number can have at most 10 characters')
   });
 
+  // Hook for the form
   const formOptions = { resolver: yupResolver(validationSchema) };
 
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
   const { errors } = formState;
 
+  // Function for the register button
   const onSubmit = async (data) => {
     const userRequest = data as UserRequest;
     console.log(userRequest);
