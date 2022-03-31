@@ -5,14 +5,17 @@ import darkTheme from '../styles/darkTheme';
 import { AppBar, Avatar, Box, Button, createTheme, CssBaseline, IconButton, Toolbar, Typography } from '@mui/material';
 import Link from 'next/link';
 import Head from 'next/head';
-import ColorModeContext from "../styles/colorModeContext";
-import createEmotionCache from "../styles/createEmotionCache";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import React from 'react';
+import createCache from "@emotion/cache";
+import { createContext } from "react";
 // import MenuIcon from '@material-ui/icons/Menu';
 
+const ColorModeContext = createContext({ toggleColorMode: () => { } });
+
 // Client-side cache, shared for the whole session of the user in the browser.
+const createEmotionCache = () => createCache({ key: "css" });
 const clientSideCache = createEmotionCache();
 
 const SwitchTheme = () => {
