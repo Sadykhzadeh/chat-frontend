@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "next.config.js",
-    "styles/ColorModeContext.ts",
+    "styles/colorModeContext.ts"
   ],
   "exclude": [
     "node_modules"

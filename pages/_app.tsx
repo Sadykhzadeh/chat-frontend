@@ -3,9 +3,9 @@ import { CacheProvider, EmotionCache, ThemeProvider } from '@emotion/react'
 import theme from '../styles/theme';
 import darkTheme from '../styles/darkTheme';
 import { AppBar, Avatar, Box, Button, createTheme, CssBaseline, IconButton, Toolbar, Typography } from '@mui/material';
-import Link from 'next/Link';
+import Link from 'next/link';
 import Head from 'next/head';
-import ColorModeContext from "../styles/ColorModeContext";
+import ColorModeContext from "../styles/colorModeContext";
 import createEmotionCache from "../styles/createEmotionCache";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
@@ -73,12 +73,12 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
               <MenuIcon />
             </IconButton> */}
                 <Link href={"/"} passHref>
-                  <>
-                    <Avatar srcSet="../logo.svg" />
-                    <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
-                      :Chat!
-                    </Typography>
-                  </>
+                  <Avatar srcSet="../logo.svg" />
+                </Link>
+                <Link href={"/"} passHref>
+                  <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
+                    :Chat!
+                  </Typography>
                 </Link>
                 {
                   (typeof window !== 'undefined') &&
