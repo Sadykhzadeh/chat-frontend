@@ -35,7 +35,10 @@ const SignUp = () => {
     confirmPassword: Yup.string()
       .required('Confirm Password is required')
       .oneOf([Yup.ref('password'), null], 'Passwords must match'),
-    phoneNumber: Yup.string().required('Phone number is required').min(9, 'Phone number must have at least 9 character').max(15, 'Phone number can have at most 10 characters')
+    phoneNumber: Yup.string().required('Phone number is required')
+      .min(9, 'Phone number must have at least 9 character')
+      .max(15, 'Phone number can have at most 10 characters')
+      .matches(/^[0-9,\-\+]{9,15}$|^$/, 'Phone number is invalid')
   });
 
   // Hook for the form
@@ -47,7 +50,7 @@ const SignUp = () => {
   // Function for the register button
   const onSubmit = async (data) => {
     const userRequest = data as UserRequest;
-    console.log(userRequest);
+    // console.log(userRequest);
     try {
       await axios.post('api/register', userRequest);
       await router.push('/register/success');

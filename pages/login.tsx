@@ -42,7 +42,7 @@ const LogIn: NextPage = () => {
   // Function for the login button
   const Submit = async (data) => {
     const JWTData = data as JWTRequest;
-    console.log(JWTData);
+    // console.log(JWTData);
     try {
       await axios.post('api/login', JWTData).then(res => {
         const { token, decryptionKey } = res.data;
