@@ -59,6 +59,26 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="theme-color" content="#000000" />
         <link rel="icon" type="image/png" href="../logo.svg" />
+
+        <meta name='application-name' content=':Chat!' />
+        <meta name='apple-mobile-web-app-capable' content='yes' />
+        <meta name='apple-mobile-web-app-status-bar-style' content='default' />
+        <meta name='apple-mobile-web-app-title' content=':Chat!' />
+        <meta name='description' content='Yet another great messenger.' />
+        <meta name='format-detection' content='telephone=no' />
+        <meta name='mobile-web-app-capable' content='yes' />
+        <meta name='msapplication-config' content='../lovo.svg' />
+        <meta name='msapplication-TileColor' content='#' />
+        <meta name='msapplication-tap-highlight' content='no' />
+        <meta name='theme-color' content='#000000' />
+
+        <link rel='manifest' href='/manifest.json' />
+
+        <meta property='og:type' content='website' />
+        <meta property='og:title' content=':Chat!' />
+        <meta property='og:description' content='Yet another great messenger.' />
+        <meta property='og:image' content='https://i.ibb.co/fYj73t6/image.png' />
+
       </Head>
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={whichTheme}>
