@@ -1,34 +1,22 @@
-FROM node:16-alpine AS deps
+FROM mhart/alpine-node:16
 
-RUN apk add --no-cache libc6-compat
-WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+RUN mkdir -p /var/www/app
+WORKDIR /var/www/app
 
-FROM node:16-alpine AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY ./yarn.lock /var/www/app/
+COPY ./next.config.js /var/www/app/
+COPY ./public /var/www/app/
+COPY ./package.json /var/www/app/
 
-RUN yarn build
 
-FROM node:16-alpine AS runner
-WORKDIR /app
+# RUN apk --update --no-cache --virtual dev-dependencies add git python make g++
+RUN yarn install --frozen-lockfile && yarn cache clean
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+COPY . /var/www/app
+RUN npm run build
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json ./package.json
-
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-USER chat
+# RUN apk del dev-dependencies
 
 EXPOSE 3000
-ENV PORT 3000
-CMD ["node", "server.js"]
+CMD ["npm", "start"]
+
