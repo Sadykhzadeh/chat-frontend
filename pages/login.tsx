@@ -17,10 +17,27 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import FormHelperText from '@mui/material/FormHelperText';
 import { JWTRequest } from './../interfaces/logres/JWTRequest';
 import { Alert, AlertTitle, Slide, Snackbar } from '@mui/material';
+import { Checkbox, FormControlLabel } from '@mui/material';
 
 // Login page
 const LogIn: NextPage = () => {
   const router = useRouter();
+
+  const [values, setValues] = React.useState({
+    showPassword: false,
+  });
+  const handleChange = (prop) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
 
   // State for the snackbar
   const [open, setOpen] = useState(false);
@@ -109,12 +126,19 @@ const LogIn: NextPage = () => {
             fullWidth
             name="password"
             label="Password"
-            type="password"
+            type={values.showPassword ? 'text' : 'password'}
             id="password"
             {...register('password')}
             error={errors.password?.message.length > 0 ? true : false}
           />
           <FormHelperText>{errors.password?.message}</FormHelperText>
+          <Grid item xs={12}>
+            <FormControlLabel
+              control={<Checkbox value="allowExtraEmails" color="primary" />}
+              onClick={handleClickShowPassword}
+              label="Show password"
+            />
+          </Grid>
           <Button
             type="submit"
             fullWidth

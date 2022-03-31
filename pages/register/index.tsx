@@ -15,8 +15,27 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import FormHelperText from '@mui/material/FormHelperText';
 import axios from 'axios';
 import router from 'next/router';
+import { Checkbox, FormControlLabel } from '@mui/material';
 
 const SignUp = () => {
+  const [values, setValues] = React.useState({
+    showPassword: false,
+  });
+
+  const handleChange = (prop) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
 
   // if user is already logged in, redirect to home page
   if (typeof window !== 'undefined' && localStorage.getItem('t')) {
@@ -63,7 +82,7 @@ const SignUp = () => {
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 5,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -127,13 +146,21 @@ const SignUp = () => {
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
+                type={values.showPassword ? 'text' : 'password'}
                 id="password"
                 autoComplete="new-password"
+                onChange={handleChange('password')}
                 {...register('password')}
                 error={errors.password?.message.length > 0 ? true : false}
               />
               <FormHelperText>{errors.password?.message}</FormHelperText>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={<Checkbox value="allowExtraEmails" color="primary" />}
+                onClick={handleClickShowPassword}
+                label="Show password"
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
