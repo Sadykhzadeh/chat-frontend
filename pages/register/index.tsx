@@ -16,26 +16,15 @@ import FormHelperText from '@mui/material/FormHelperText';
 import axios from 'axios';
 import router from 'next/router';
 import { Checkbox, FormControlLabel } from '@mui/material';
+// import { Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel } from '@mui/material';
 
 const SignUp = () => {
-  const [values, setValues] = React.useState({
-    showPassword: false,
-  });
+  const [showPass, setShowPass] = React.useState(false);
+  const passShow = () => setShowPass(!showPass)
 
-  const handleChange = (prop) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
-
-  const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    });
-  };
-
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
+  // const handleChange = (prop) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setShowPass(event.target.value);
+  // };
 
   // if user is already logged in, redirect to home page
   if (typeof window !== 'undefined' && localStorage.getItem('t')) {
@@ -44,13 +33,21 @@ const SignUp = () => {
 
   // Validation schema for the form fields of the register page
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required').min(1, 'Name should have at least 1 character').max(50, 'Name can have at most 50 character'),
-    surname: Yup.string().required('Surname is required').min(1, 'Surname should have at least 1 character').max(50, 'Surname can have at most 50 character'),
+    name: Yup.string()
+      .required('Name is required')
+      .min(1, 'Name should have at least 1 character')
+      .max(50, 'Name can have at most 50 character'),
+    surname: Yup.string()
+      .required('Surname is required')
+      .min(1, 'Surname should have at least 1 character')
+      .max(50, 'Surname can have at most 50 character'),
     login: Yup.string()
       .required('Email is required')
       .email('Invalid email'),
-    password: Yup.string().required('Password is required')
-      .min(6, 'Password must be at least 6 characters').max(255, 'Password can have at most 255 characters'),
+    password: Yup.string()
+      .required('Password is required')
+      .min(6, 'Password must be at least 6 characters')
+      .max(255, 'Password can have at most 255 characters'),
     confirmPassword: Yup.string()
       .required('Confirm Password is required')
       .oneOf([Yup.ref('password'), null], 'Passwords must match'),
@@ -71,7 +68,10 @@ const SignUp = () => {
     const userRequest = data as UserRequest;
     // console.log(userRequest);
     try {
-      await axios.post('api/register', userRequest);
+      const { data } = await axios.post('api/register', userRequest);
+      if (data.includes("false")) {
+        throw new Error();
+      }
       await router.push('/register/success');
     } catch (error) {
       // console.log(userRequest, error.message);
@@ -146,10 +146,10 @@ const SignUp = () => {
                 fullWidth
                 name="password"
                 label="Password"
-                type={values.showPassword ? 'text' : 'password'}
+                type={showPass ? 'text' : 'password'}
                 id="password"
                 autoComplete="new-password"
-                onChange={handleChange('password')}
+                // onChange={handleChange('password')}
                 {...register('password')}
                 error={errors.password?.message.length > 0 ? true : false}
               />
@@ -157,8 +157,9 @@ const SignUp = () => {
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                onClick={handleClickShowPassword}
+                control={
+                  <Checkbox color="primary" onClick={passShow} />
+                }
                 label="Show password"
               />
             </Grid>
