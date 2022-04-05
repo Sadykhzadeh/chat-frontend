@@ -168,7 +168,7 @@ const SignUp = () => {
                 fullWidth
                 name="another password"
                 label="Comfirm Password"
-                type="password"
+                type={showPass ? 'text' : 'password'}
                 id="confirmPassword"
                 autoComplete="new-password"
                 {...register('confirmPassword')}
