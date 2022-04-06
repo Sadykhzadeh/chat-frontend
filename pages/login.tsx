@@ -15,7 +15,7 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormHelperText from '@mui/material/FormHelperText';
-import { JWTRequest } from './../interfaces/logres/JWTRequest';
+import { JWTRequest } from '../interfaces/logres/JWTRequest';
 import { Alert, AlertTitle, Slide, Snackbar } from '@mui/material';
 import { Checkbox, FormControlLabel } from '@mui/material';
 
@@ -23,21 +23,8 @@ import { Checkbox, FormControlLabel } from '@mui/material';
 const LogIn: NextPage = () => {
   const router = useRouter();
 
-  const [values, setValues] = React.useState({
-    showPassword: false,
-  });
-  const handleChange = (prop) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
-  const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    });
-  };
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
+  const [showPass, setShowPass] = React.useState(false);
+  const passShow = () => setShowPass(!showPass)
 
   // State for the snackbar
   const [open, setOpen] = useState(false);
@@ -48,7 +35,7 @@ const LogIn: NextPage = () => {
       .required('Email is required')
       .email('Invalid email'),
     password: Yup.string().required('Password is required')
-      .min(6, 'Password must be at least 6 characters').max(10, 'Password can have at most 10 characters'),
+      .min(6, 'Password must be at least 6 characters').max(255, 'Password can have at most 255 characters'),
   });
 
   // Hook for the form
@@ -114,28 +101,27 @@ const LogIn: NextPage = () => {
             fullWidth
             id="username"
             label="Username"
-            name="username"
             autoFocus
             {...register('username')}
-            error={errors.username?.message.length > 0 ? true : false}
+            error={errors.username?.message.length > 0}
           />
           <FormHelperText>{errors.username?.message}</FormHelperText>
           <TextField
             margin="normal"
             required
             fullWidth
-            name="password"
             label="Password"
-            type={values.showPassword ? 'text' : 'password'}
+            type={showPass ? 'text' : 'password'}
             id="password"
             {...register('password')}
-            error={errors.password?.message.length > 0 ? true : false}
+            error={errors.password?.message.length > 0}
           />
           <FormHelperText>{errors.password?.message}</FormHelperText>
           <Grid item xs={12}>
             <FormControlLabel
-              control={<Checkbox value="allowExtraEmails" color="primary" />}
-              onClick={handleClickShowPassword}
+              control={
+                <Checkbox color="primary" onClick={passShow} />
+              }
               label="Show password"
             />
           </Grid>
@@ -144,7 +130,6 @@ const LogIn: NextPage = () => {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            disabled={errors.username?.message.length + errors.password?.message.length > 0}
           >
             Sign In
           </Button>

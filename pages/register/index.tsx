@@ -22,10 +22,6 @@ const SignUp = () => {
   const [showPass, setShowPass] = React.useState(false);
   const passShow = () => setShowPass(!showPass)
 
-  // const handleChange = (prop) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setShowPass(event.target.value);
-  // };
-
   // if user is already logged in, redirect to home page
   if (typeof window !== 'undefined' && localStorage.getItem('t')) {
     router.push('/');
