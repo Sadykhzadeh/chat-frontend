@@ -1,6 +1,6 @@
 {
-  "name": "PWA App",
-  "short_name": "App",
+  "name": ":Chat!",
+  "short_name": ":Chat!",
   "icons": [
     {
       "src": "./logo.svg",
@@ -22,5 +22,6 @@
   "theme_color": "#fff",
   "background_color": "#556cd6",
   "start_url": "/",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "display": "fullscreen"
 }
