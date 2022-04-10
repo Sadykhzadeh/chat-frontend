@@ -23,11 +23,11 @@ import { Checkbox, FormControlLabel } from '@mui/material';
 const LogIn: NextPage = () => {
   const router = useRouter();
 
-  const [showPass, setShowPass] = React.useState(false);
+  const [showPass, setShowPass] = useState(false);
   const passShow = () => setShowPass(!showPass)
 
   // State for the snackbar
-  const [open, setOpen] = useState(false);
+  const [snackbar, setSnackbar] = useState(false);
 
   // Validation schema for the form fields of the login page
   const validationSchema = Yup.object().shape({
@@ -56,7 +56,7 @@ const LogIn: NextPage = () => {
       });
       await router.push('/');
     } catch (error) {
-      setOpen(true);
+      setSnackbar(true);
     }
   };
 
@@ -77,11 +77,11 @@ const LogIn: NextPage = () => {
         }}
       >
         <Snackbar
-          open={open}
+          open={snackbar}
           autoHideDuration={6000}
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           TransitionComponent={(props) => <Slide direction='down' {...props} />}
-          onClose={(event: React.SyntheticEvent | Event, reason?: string) => setOpen(false)}
+          onClose={(event: React.SyntheticEvent | Event, reason?: string) => setSnackbar(false)}
         >
           <Alert severity="warning" sx={{ marginBottom: 5 }}>
             <AlertTitle>Invalid username or password. <br />Please try again.</AlertTitle>

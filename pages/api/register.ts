@@ -16,10 +16,16 @@ const register = async (req: NextApiRequest, res: NextApiResponse) => {
     const { data } = await mainServer.post('/users/register', userData);
     res.status(200).json(data);
   } catch (error) {
-    res.status(401).json({
-      error: 'Wrong password'
+    // @ts-expect-error
+    if (error.response.status == 406) {
+      res.status(406).json({
+        error: "Not all requirements are followed (incorrect phone number format, login format, etc.)"
+      })
+    }
+    else res.status(409).json({
+      error: 'User with this login already exists'
     });
   }
-};
+}
 
 export default register

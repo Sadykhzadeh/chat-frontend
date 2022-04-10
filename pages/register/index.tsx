@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -15,11 +15,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import FormHelperText from '@mui/material/FormHelperText';
 import axios from 'axios';
 import router from 'next/router';
-import { Checkbox, FormControlLabel } from '@mui/material';
+import { Alert, AlertTitle, Backdrop, Checkbox, CircularProgress, FormControlLabel, Slide, Snackbar } from '@mui/material';
 // import { Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel } from '@mui/material';
 
 const SignUp = () => {
-  const [showPass, setShowPass] = React.useState(false);
+  const [backdrop, setBackdrop] = useState(false);
+  const [showPass, setShowPass] = useState(false);
+  const [snackbar, setSnackbar] = useState(false);
   const passShow = () => setShowPass(!showPass)
 
   // if user is already logged in, redirect to home page
@@ -61,21 +63,39 @@ const SignUp = () => {
 
   // Function for the register button
   const onSubmit = async (data) => {
+    setBackdrop(true);
     const userRequest = data as UserRequest;
-    // console.log(userRequest);
     try {
       const { data } = await axios.post('api/register', userRequest);
-      if (data.includes("false")) {
-        throw new Error();
-      }
       await router.push('/register/success');
     } catch (error) {
-      // console.log(userRequest, error.message);
+      if (error.response.status === 409) {
+        setBackdrop(false);
+        setSnackbar(true);
+      }
     }
   };
 
   return (
     <Container component="main" maxWidth="xs">
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={backdrop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <Snackbar
+        open={snackbar}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        TransitionComponent={(props) => <Slide direction='down' {...props} />}
+        onClose={(event: React.SyntheticEvent | Event, reason?: string) => setSnackbar(false)}
+      >
+        <Alert severity="warning" sx={{ marginBottom: 5 }}>
+          <AlertTitle>This user already exists</AlertTitle>
+          If you opened this page mistakenly, click <Link href="/login"><a>here</a></Link> to login.
+        </Alert>
+      </Snackbar>
       <Box
         sx={{
           marginTop: 5,
