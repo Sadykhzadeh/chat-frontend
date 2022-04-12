@@ -10,6 +10,7 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import React from 'react';
 import createCache from "@emotion/cache";
 import { createContext } from "react";
+import { destroyCookie, parseCookies } from 'nookies'
 // import MenuIcon from '@material-ui/icons/Menu';
 
 const ColorModeContext = createContext({ toggleColorMode: () => { } });
@@ -52,6 +53,8 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
     [mode],
   );
 
+
+  const cookies = parseCookies();
   return (
     <CacheProvider value={emotionCache}>
       <Head>
@@ -104,13 +107,12 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
                   </Typography>
                 </Link>
                 {
-                  (typeof window !== 'undefined') &&
-                    localStorage.getItem('t') ? (
+                  cookies.token ? (
                     <Button
                       color="inherit"
                       onClick={() => {
-                        localStorage.removeItem('t');
-                        localStorage.removeItem('d');
+                        destroyCookie(null, 'token');
+                        destroyCookie(null, 'decryptionKey');
                         window.location.reload();
                       }}
                     >

@@ -18,6 +18,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import { JWTRequest } from '../interfaces/logres/JWTRequest';
 import { Alert, AlertTitle, Slide, Snackbar } from '@mui/material';
 import { Checkbox, FormControlLabel } from '@mui/material';
+import nookies from 'nookies'
 
 // Login page
 const LogIn: NextPage = () => {
@@ -50,9 +51,15 @@ const LogIn: NextPage = () => {
     try {
       await axios.post('api/login', JWTData).then(res => {
         const { token, decryptionKey } = res.data;
-        // keep token in local storage
-        localStorage.setItem('t', token);
-        localStorage.setItem('d', decryptionKey);
+        // keep the token and the decryption key in nookies
+        nookies.set(null, 'token', token, {
+          maxAge: 30 * 24 * 60 * 60,
+          path: '/'
+        });
+        nookies.set(null, 'decryptionKey', decryptionKey, {
+          maxAge: 30 * 24 * 60 * 60,
+          path: '/'
+        });
       });
       await router.push('/');
     } catch (error) {
@@ -60,8 +67,9 @@ const LogIn: NextPage = () => {
     }
   };
 
+
   // if user is already logged in, redirect to home page
-  if (typeof window !== 'undefined' && localStorage.getItem('t')) {
+  if (typeof window !== 'undefined' && nookies.get(null, 'token').length) {
     router.push('/');
   }
 

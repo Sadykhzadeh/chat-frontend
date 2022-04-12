@@ -1,45 +1,46 @@
 import type { NextPage } from 'next'
 import React from 'react'
-import { Container } from '@mui/material'
-import { Typography } from '@mui/material'
 import axios from 'axios'
 import UserResponse from '../interfaces/userManagement/userResponse'
+import nookies from 'nookies'
 
-//@ts-expect-error
-const Home: NextPage = ({ data }) => {
+const Home: NextPage = (
+  { user }
+) => {
+  const drawerWidth = 240;
+  // if logged in, open chat
+  if (user) {
+    return (
+      <h1>Good!</h1>
+    )
+  }
   return (
-    <Container component="main">
-      <Typography component="h1" variant="h4">
-        Hello, user! Welcome to :Chat!
-      </Typography>
-      {data}
-    </Container>
+    <h1>:(</h1>
   )
+
 }
 
-export const getServerSideProps = async () => {
-  try {
-    // get api/me with bearer token from localhost
-    const response = await axios.get('users/me', {
-      headers: {
-        Authorization: `Bearer ${process.env.API_TOKEN}`
-      }
-    })
-    const data = response.data as UserResponse
+export const getServerSideProps = async (ctx) => {
+  const cookies = nookies.get(ctx)
+  if (!cookies.token) {
     return {
-      props: {
-        data
-      }
+      props: {}
+    };
+  }
+  const token = cookies.token
+  console.log(ctx.resolvedUrl);
+
+  const res = await axios.get(`http://0.0.0.0:3000/api/me`, {
+    headers: {
+      Authorization: `Bearer ${token}`
     }
-  } catch (e) {
-    console.log(e.message);
-    return {
-      props: {
-        data: ":("
-      }
+  })
+  const user = res.data as UserResponse
+  return {
+    props: {
+      user
     }
   }
 }
-
 
 export default Home

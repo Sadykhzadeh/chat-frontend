@@ -14,7 +14,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormHelperText from '@mui/material/FormHelperText';
 import axios from 'axios';
-import router from 'next/router';
+import nookies from 'nookies';
+import { useRouter } from 'next/router';
 import { Alert, AlertTitle, Backdrop, Checkbox, CircularProgress, FormControlLabel, Slide, Snackbar } from '@mui/material';
 // import { Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel } from '@mui/material';
 
@@ -23,9 +24,12 @@ const SignUp = () => {
   const [showPass, setShowPass] = useState(false);
   const [snackbar, setSnackbar] = useState(false);
   const passShow = () => setShowPass(!showPass)
+  const router = useRouter();
 
   // if user is already logged in, redirect to home page
-  if (typeof window !== 'undefined' && localStorage.getItem('t')) {
+
+
+  if (typeof window !== 'undefined' && nookies.get(null, 'token').length) {
     router.push('/');
   }
 

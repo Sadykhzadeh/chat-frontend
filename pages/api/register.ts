@@ -22,9 +22,17 @@ const register = async (req: NextApiRequest, res: NextApiResponse) => {
         error: "Not all requirements are followed (incorrect phone number format, login format, etc.)"
       })
     }
-    else res.status(409).json({
-      error: 'User with this login already exists'
-    });
+    // @ts-expect-error
+    else if (error.response.status == 409) {
+      res.status(409).json({
+        error: "User with this login already exists"
+      })
+    } else {
+      res.status(500).json({
+        //@ts-expect-error
+        message: error.message
+      });
+    }
   }
 }
 
