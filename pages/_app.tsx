@@ -11,6 +11,7 @@ import React from 'react';
 import createCache from "@emotion/cache";
 import { createContext } from "react";
 import { destroyCookie, parseCookies } from 'nookies'
+import { useRouter } from 'next/router';
 // import MenuIcon from '@material-ui/icons/Menu';
 
 const ColorModeContext = createContext({ toggleColorMode: () => { } });
@@ -33,6 +34,7 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
   // main theme provider
   const { Component, emotionCache = clientSideCache, pageProps } = props;
   const [mode, setMode] = React.useState<'light' | 'dark'>('light');
+  const router = useRouter();
 
   const colorMode = React.useMemo(
     () => ({
@@ -89,15 +91,6 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
           <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
               <Toolbar>
-                {/* <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton> */}
                 <Link href={"/"} passHref>
                   <Avatar srcSet="../logo.svg" />
                 </Link>
@@ -107,17 +100,24 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
                   </Typography>
                 </Link>
                 {
-                  cookies.token ? (
-                    <Button
-                      color="inherit"
-                      onClick={() => {
-                        destroyCookie(null, 'token');
-                        destroyCookie(null, 'decryptionKey');
-                        window.location.reload();
-                      }}
-                    >
-                      Logout
-                    </Button>
+                  !router.pathname.includes('/chat') &&
+                    cookies.token ? (
+                    <Link href={'/chat'} passHref>
+                      <Button color="inherit">
+                        Open :Chat!
+                      </Button>
+                    </Link>
+                  ) : cookies.token ? (
+                    <Link href={'/'} passHref>
+                      <Button color="inherit"
+                        onClick={() => {
+                          destroyCookie(null, 'token');
+                          destroyCookie(null, 'decryptionKey');
+                          router.push('/');
+                        }}>
+                        Logout
+                      </Button>
+                    </Link>
                   ) : (
                     <>
                       <Link href={'/login'} passHref>

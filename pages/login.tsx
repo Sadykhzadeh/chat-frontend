@@ -61,7 +61,7 @@ const LogIn: NextPage = () => {
           path: '/'
         });
       });
-      await router.push('/');
+      await router.push('/chat');
     } catch (error) {
       setSnackbar(true);
     }
