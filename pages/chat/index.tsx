@@ -118,7 +118,6 @@ export const getServerSideProps = async (ctx) => {
   const cookies = nookies.get(ctx)
   if (!cookies.token) return { props: {} };
   const token = cookies.token
-  console.log("ROMAN" + token)
   const aboutMe = await axios.get(`/api/me`, {
     baseURL: process.env.URL,
     headers: {

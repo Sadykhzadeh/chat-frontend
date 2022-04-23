@@ -4,7 +4,6 @@ import { Card, CardHeader, List, Typography } from '@mui/material';
 import UserResponse from '../interfaces/userManagement/userResponse';
 
 const ContactList = ({ contactList }) => {
-  console.log(contactList);
   return <List sx={{
     width: '100%',
     bgcolor: 'background.paper',
