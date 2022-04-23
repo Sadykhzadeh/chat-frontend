@@ -12,7 +12,6 @@ import createCache from "@emotion/cache";
 import { createContext } from "react";
 import { destroyCookie, parseCookies } from 'nookies'
 import { useRouter } from 'next/router';
-// import MenuIcon from '@material-ui/icons/Menu';
 
 const ColorModeContext = createContext({ toggleColorMode: () => { } });
 
@@ -102,11 +101,23 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
                 {
                   !router.pathname.includes('/chat') &&
                     cookies.token ? (
-                    <Link href={'/chat'} passHref>
-                      <Button color="inherit">
-                        Open :Chat!
-                      </Button>
-                    </Link>
+                    <>
+                      <Link href={'/chat'} passHref>
+                        <Button color="inherit">
+                          Open :Chat!
+                        </Button>
+                      </Link>
+                      <Link href={'/'} passHref>
+                        <Button color="inherit"
+                          onClick={() => {
+                            destroyCookie(null, 'token');
+                            destroyCookie(null, 'decryptionKey');
+                            router.push('/');
+                          }}>
+                          Logout
+                        </Button>
+                      </Link>
+                    </>
                   ) : cookies.token ? (
                     <Link href={'/'} passHref>
                       <Button color="inherit"

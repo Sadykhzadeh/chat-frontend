@@ -12,7 +12,6 @@ const register = async (req: NextApiRequest, res: NextApiResponse) => {
       "surname": surname,
       "phoneNumber": phoneNumber,
     } as UserRequest;
-    // console.log(userData);
     const { data } = await mainServer.post('/users/register', userData);
     res.status(200).json(data);
   } catch (error) {
