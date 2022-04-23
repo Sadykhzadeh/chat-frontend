@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import Link from 'next/link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Lock from '@mui/icons-material/Lock';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useRouter } from 'next/router';
@@ -47,7 +47,6 @@ const LogIn: NextPage = () => {
   // Function for the login button
   const Submit = async (data) => {
     const JWTData = data as JWTRequest;
-    // console.log(JWTData);
     try {
       await axios.post('api/login', JWTData).then(res => {
         const { token, decryptionKey } = res.data;
@@ -97,12 +96,12 @@ const LogIn: NextPage = () => {
           </Alert>
         </Snackbar>
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
+          <Lock />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit(Submit)} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit(Submit)} sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
