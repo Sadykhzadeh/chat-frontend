@@ -1,7 +1,7 @@
 <br/>
 <p align="center">
   <a href="https://github.com/Sadykhzadeh/chat-frontend">
-    <img src="https://raw.githubusercontent.com/Sadykhzadeh/chat-frontend/e892378843c6b1d711aef9be80232f08ea3e2d93/public/logo.svg" alt="Logo" width="80" height="80">
+    <img src="https://raw.githubusercontent.com/Sadykhzadeh/chat-frontend/e892378843c6b1d711aef9be80232f08ea3e2d93/public/logo.svg" alt="Logo" width="160" height="160">
   </a>
 
   <h3 align="center">:Chat!</h3>
