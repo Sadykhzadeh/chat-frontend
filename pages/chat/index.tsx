@@ -14,6 +14,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form'
 import ContactList from '../../components/ContactList'
+import ChipSelect from '../../components/ChipSelect'
+import CreateNewChat from '../../components/CreateNewChat'
 
 //@ts-expect-error
 const MainChatList: NextPage = ({ user, chatRes, contactList }) => {
@@ -69,7 +71,7 @@ const MainChatList: NextPage = ({ user, chatRes, contactList }) => {
               bgcolor: 'background.paper',
               position: 'relative',
               overflow: 'auto',
-              maxHeight: 300,
+              maxHeight: 600,
               '& ul': { padding: 0 },
             }}
               subheader={<li />}>
@@ -82,6 +84,8 @@ const MainChatList: NextPage = ({ user, chatRes, contactList }) => {
               )) : <Typography sx={{ textAlign: 'center' }}>
                 No Chats
               </Typography>}
+              <Divider sx={{ mt: 3, mb: 3 }} />
+              <CreateNewChat contactList={contactList as UserResponse[]} />
             </List>
           </TabPanel>
           <TabPanel value="2">
@@ -142,8 +146,6 @@ export const getServerSideProps = async (ctx) => {
   const user = aboutMe.data as UserResponse
   const chatRes = chats.data
   const contactList = contacts.data as UserResponse[]
-  console.info(contactList)
-
   return { props: { user, chatRes, contactList } }
 }
 
