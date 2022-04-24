@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Container, Divider, FormHelperText, List, ListItem, ListItemAvatar, ListItemText, Tab, TextField, Typography } from '@mui/material'
+import { Box, Button, Container, Divider, FormHelperText, List, Tab, TextField, Typography } from '@mui/material'
 import axios from 'axios'
 import type { NextPage } from 'next'
 import ProfileInfo from '../../components/ProfileInfo'
@@ -14,7 +14,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form'
 import ContactList from '../../components/ContactList'
-import ChipSelect from '../../components/ChipSelect'
 import CreateNewChat from '../../components/CreateNewChat'
 
 //@ts-expect-error

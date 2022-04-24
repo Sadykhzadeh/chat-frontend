@@ -17,7 +17,6 @@ import axios from 'axios';
 import nookies from 'nookies';
 import { useRouter } from 'next/router';
 import { Alert, AlertTitle, Backdrop, Checkbox, CircularProgress, FormControlLabel, Slide, Snackbar } from '@mui/material';
-// import { Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel } from '@mui/material';
 
 const SignUp = () => {
   const [backdrop, setBackdrop] = useState(false);
