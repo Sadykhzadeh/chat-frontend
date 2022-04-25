@@ -34,7 +34,6 @@ const MainChatList: NextPage = ({ user, chatRes, contactList }) => {
   const addContactPost = async (data) => {
     const { email } = data;
     try {
-      const token = nookies.get(null, 'token').token;
       await axios.post('/api/contacts/add', {
         login: email
       }).then(res => {
@@ -72,18 +71,18 @@ const MainChatList: NextPage = ({ user, chatRes, contactList }) => {
               overflow: 'auto',
               maxHeight: 600,
               '& ul': { padding: 0 },
-            }}
-              subheader={<li />}>
-              {chatRes.length ? chatRes.map((chat: { chatsData: { title: any; members: string | any[] } }) => (
+            }}>
+              {chatRes.length ? chatRes.map((chat: { chatsData: { id: any; title: any; members: string | any[] } }) => (
                 // eslint-disable-next-line react/jsx-key
                 <ChatList info={{
+                  id: chat.chatsData.id,
                   chatName: chat.chatsData.title,
                   message: chat.chatsData.members?.length > 1 ? chat.chatsData.members.length + ' members' : '',
                 }} />
               )) : <Typography sx={{ textAlign: 'center' }}>
                 No Chats
               </Typography>}
-              <Divider sx={{ mt: 3, mb: 3 }} />
+              <Divider sx={{ mb: 3 }} />
               <CreateNewChat contactList={contactList as UserResponse[]} />
             </List>
           </TabPanel>

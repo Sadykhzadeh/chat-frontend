@@ -22,10 +22,11 @@ const getChats = async (req: NextApiRequest, res: NextApiResponse) => {
         Authorization: token
       }
     })
-    // convert data to array of unique chat ids
-    const chatIds = data as number[], output = [];
+
+    const chatIds = data.filter((v: any, i: any, a: string | any[]) => a.indexOf(v) === i) as number[], output = [];
+    // unique chat ids
     // get all chats
-    for (let i in chatIds) {
+    for (let i of chatIds) {
       const chats = await mainServer.get(`/chats/${i}`, {
         headers: {
           Authorization: token
@@ -60,6 +61,7 @@ const getChats = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         chatsData.messages = messagesList;
+        chatsData.id = i;
         output.push({
           chatsData
         });
