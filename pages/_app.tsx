@@ -72,8 +72,6 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
         <meta name='format-detection' content='telephone=no' />
         <meta name='mobile-web-app-capable' content='yes' />
         <meta name='msapplication-config' content='../lovo.svg' />
-        <meta name='msapplication-TileColor' content='#' />
-        <meta name='msapplication-tap-highlight' content='no' />
         <meta name='theme-color' content='#000000' />
 
         <link rel='manifest' href='/manifest.json' />
