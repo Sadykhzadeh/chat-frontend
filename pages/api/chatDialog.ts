@@ -1,18 +1,18 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import mainServer from '../../src/axios';
 
-const decrypt = (message: string, key: string): string => {
-  let res = "";
-  message = message.toString().toUpperCase();
-  key = key.toString();
-  for (let i = 0, j = 0; i < message.length; i++) {
-    let c = message.charAt(i).charCodeAt(0);
-    if (c < 65 || c > 91) res += String.fromCharCode(c);
-    res += String.fromCharCode((c - (key.charAt(j).charCodeAt(0)) + 26) % 26 + 65);
-    j = ++j % key.length;
-  }
-  return res;
-}
+// const decrypt = (message: string, key: string): string => {
+//   let res = "";
+//   message = message.toString().toUpperCase();
+//   key = key.toString();
+//   for (let i = 0, j = 0; i < message.length; i++) {
+//     let c = message.charAt(i).charCodeAt(0);
+//     if (c < 65 || c > 91) res += String.fromCharCode(c);
+//     res += String.fromCharCode((c - (key.charAt(j).charCodeAt(0)) + 26) % 26 + 65);
+//     j = ++j % key.length;
+//   }
+//   return res;
+// }
 
 const chatDialog = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -51,7 +51,7 @@ const chatDialog = async (req: NextApiRequest, res: NextApiResponse) => {
         messageData.author = membersList.find((value: any) => {
           return value.id === messageData.authorId;
         })
-        messageData.content = decrypt(messageData.content, req.headers.dec as string)
+        // messageData.content = decrypt(messageData.content, req.headers.dec as string)
         const creationTime = new Date(messageData.creationTime);
         messageData.creationTime = creationTime.toLocaleString('en-US', {
           hour12: false,
