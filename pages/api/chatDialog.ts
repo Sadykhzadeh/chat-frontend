@@ -57,7 +57,7 @@ const chatDialog = async (req: NextApiRequest, res: NextApiResponse) => {
         messagesList.push(messageData);
       }
 
-      chatsData.messages = messagesList;
+      chatsData.messages = messagesList.sort((a, b) => Date.parse(a.creationTime) - Date.parse(b.creationTime));
       chatsData.chatId = chatId;
 
       res.status(200).json(chatsData);
