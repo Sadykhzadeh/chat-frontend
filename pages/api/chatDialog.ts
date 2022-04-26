@@ -53,15 +53,7 @@ const chatDialog = async (req: NextApiRequest, res: NextApiResponse) => {
         })
         // messageData.content = decrypt(messageData.content, req.headers.dec as string)
         const creationTime = new Date(messageData.creationTime);
-        messageData.creationTime = creationTime.toLocaleString('en-US', {
-          hour12: false,
-          hour: 'numeric',
-          minute: 'numeric',
-          second: 'numeric',
-          year: 'numeric',
-          month: 'numeric',
-          day: 'numeric',
-        });
+        messageData.creationTime = creationTime.toLocaleString();
         messagesList.push(messageData);
       }
 
