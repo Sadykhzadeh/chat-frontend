@@ -144,6 +144,7 @@ const SignUp = () => {
                 id="email"
                 label="Email Address"
                 name="email"
+                autoComplete='email'
                 {...register('login')}
                 error={errors.login?.message.length > 0 ? true : false}
               />
