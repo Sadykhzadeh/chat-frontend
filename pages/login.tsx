@@ -16,13 +16,15 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormHelperText from '@mui/material/FormHelperText';
 import { JWTRequest } from '../interfaces/logres/JWTRequest';
-import { Alert, AlertTitle, Slide, Snackbar } from '@mui/material';
+import { Alert, AlertTitle, Backdrop, CircularProgress, Slide, Snackbar } from '@mui/material';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import nookies from 'nookies'
 
 // Login page
 const LogIn: NextPage = () => {
   const router = useRouter();
+
+  const [backdrop, setBackdrop] = useState(false);
 
   const [showPass, setShowPass] = useState(false);
   const passShow = () => setShowPass(!showPass)
@@ -46,6 +48,7 @@ const LogIn: NextPage = () => {
 
   // Function for the login button
   const Submit = async (data) => {
+    setBackdrop(true);
     const JWTData = data as JWTRequest;
     try {
       await axios.post('api/login', JWTData).then(res => {
@@ -61,7 +64,9 @@ const LogIn: NextPage = () => {
         });
       });
       await router.push('/chat');
+      setBackdrop(false);
     } catch (error) {
+      setBackdrop(false);
       setSnackbar(true);
     }
   };
@@ -75,6 +80,12 @@ const LogIn: NextPage = () => {
   // JSX for the login page
   return (
     <Container maxWidth="xs">
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={backdrop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Box
         sx={{
           marginTop: 8,
