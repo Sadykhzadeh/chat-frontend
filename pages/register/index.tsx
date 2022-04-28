@@ -8,12 +8,10 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { UserRequest } from '../../interfaces/logres/UserRequest';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormHelperText from '@mui/material/FormHelperText';
-import axios from 'axios';
 import nookies from 'nookies';
 import { useRouter } from 'next/router';
 import { Alert, AlertTitle, Backdrop, Checkbox, CircularProgress, FormControlLabel, Slide, Snackbar } from '@mui/material';
@@ -66,16 +64,28 @@ const SignUp = () => {
 
   // Function for the register button
   const onSubmit = async (data) => {
-    setBackdrop(true);
-    const userRequest = data as UserRequest;
+    // 
+    // const userRequest = data as UserRequest;
+    // try {
+    //   const { data } = await axios.post('api/register', userRequest);
+    //   await router.push('/register/success');
+    // } catch (error) {
+    //   if (error.response.status === 409) {
+    //     setBackdrop(false);
+    //     setSnackbar(true);
+    //   }
+    // }
     try {
-      const { data } = await axios.post('api/register', userRequest);
-      await router.push('/register/success');
-    } catch (error) {
-      if (error.response.status === 409) {
-        setBackdrop(false);
-        setSnackbar(true);
-      }
+      setBackdrop(true);
+      localStorage.setItem('name', data.name);
+      localStorage.setItem('surname', data.surname);
+      localStorage.setItem('phoneNumber', data.phoneNumber);
+      localStorage.setItem('login', data.login);
+      localStorage.setItem('password', data.password);
+      await router.push('/register/confirm');
+    } catch (e) {
+      console.log(e);
+      setBackdrop(false);
     }
   };
 
