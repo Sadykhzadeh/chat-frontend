@@ -25,7 +25,7 @@
 
 ## Table Of Contents
 
-* [About the Project](#about-the-project)
+* [Screenshot of project](#screenshot-of-project)
 * [Built With](#built-with)
 * [Usage](#usage)
 * [Roadmap](#roadmap)
@@ -33,11 +33,10 @@
 * [Authors](#authors)
 * [Acknowledgements](#acknowledgements)
 
-## About The Project
+## Screenshot of project
 
 ![Screen Shot](https://i.ibb.co/fYj73t6/image.png)
 
-Messenger. More detailed description is comming soon....
 
 ## Built With
 
@@ -49,11 +48,16 @@ Messenger. More detailed description is comming soon....
 
 ## Usage
 
-First, run the development server:
+First, don't forget to create `.env.local` file in root directory of the project.
+
+```
+URL=http://localhost:3000/
+API_URL=http://your-api-url.com/
+```
+
+Then, run the development server:
 
 ```bash
-npm run dev
-# or
 yarn dev
 ```
 
@@ -62,8 +66,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 To build and run the project, use commands below:
 
 ```bash
-npm run build && npm start
-# or
 yarn build && yarn start
 ```
 
