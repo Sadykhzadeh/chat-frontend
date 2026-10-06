@@ -1,10 +1,12 @@
-version: '3'
+# `version` has been obsolete since Compose v2 and is ignored with a warning.
 services:
   node1:
     build:
       context: ./
-    expose:
-      - "3000"
     ports:
       - "3000:3000"
-
+    environment:
+      # src/axios.ts builds its baseURL from this; without it every API route
+      # requests a relative URL and fails.
+      - API_URL=${API_URL}
+    restart: unless-stopped

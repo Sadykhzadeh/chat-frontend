@@ -16,9 +16,9 @@ const newChat = async (req: NextApiRequest, res: NextApiResponse) => {
     })
     res.status(200).json(data);
   } catch (err) {
+    console.error(err);
     res.status(500).json({
-      //@ts-expect-error
-      message: err.message
+      message: 'Something went wrong, please try again later'
     });
   }
 };

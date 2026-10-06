@@ -12,7 +12,7 @@ const authenticate = async (req: NextApiRequest, res: NextApiResponse) => {
     const { data } = await mainServer.post('/users/authenticate', JWTData);
     res.status(200).json(data);
   } catch (error: any) {
-    if (error.response.status === 401)
+    if (error.response?.status === 401)
       res.status(401).json({
         message: 'Invalid username or password'
       });

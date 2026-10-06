@@ -69,9 +69,9 @@ const getChats = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     res.status(200).json(output);
   } catch (err) {
+    console.error(err);
     res.status(501).json({
-      //@ts-expect-error
-      message: err.message.slice(-100)
+      message: 'Something went wrong, please try again later'
     });
   }
 };

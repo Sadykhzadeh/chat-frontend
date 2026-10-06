@@ -19,12 +19,14 @@ const ColorModeContext = createContext({ toggleColorMode: () => { } });
 const createEmotionCache = () => createCache({ key: "css" });
 const clientSideCache = createEmotionCache();
 
-const SwitchTheme = () => {
+const SwitchTheme = ({ mode }: { mode: 'light' | 'dark' }) => {
   // color mode context for the theme provider
   const colorMode = React.useContext(ColorModeContext);
   return (
     <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode}>
-      {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+      {/* This read theme.palette.mode off the statically imported light
+          theme, which is always 'light', so the icon never changed. */}
+      {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
     </IconButton>
   );
 }
@@ -34,6 +36,15 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
   const { Component, emotionCache = clientSideCache, pageProps } = props;
   const [mode, setMode] = React.useState<'light' | 'dark'>('light');
   const router = useRouter();
+
+  // toggleColorMode has always written the choice to localStorage, but nothing
+  // ever read it, so the theme reset to light on every page load. Reading it
+  // after mount rather than in the initial state keeps the server-rendered
+  // markup and the first client render identical.
+  React.useEffect(() => {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark' || saved === 'light') setMode(saved);
+  }, []);
 
   const colorMode = React.useMemo(
     () => ({
@@ -62,7 +73,7 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
         <title>:Chat!</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="theme-color" content="#000000" />
-        <link rel="icon" type="image/png" href="../logo.svg" />
+        <link rel="icon" type="image/svg+xml" href="/logo.svg" />
 
         <meta name='application-name' content=':Chat!' />
         <meta name='apple-mobile-web-app-capable' content='yes' />
@@ -70,8 +81,6 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
         <meta name='apple-mobile-web-app-title' content=':Chat!' />
         <meta name='description' content='Yet another great messenger.' />
         <meta name='mobile-web-app-capable' content='yes' />
-        <meta name='msapplication-config' content='../logo.svg' />
-        <meta name='theme-color' content='#000000' />
 
         <link rel='manifest' href='/manifest.json' />
 
@@ -87,7 +96,7 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
             <AppBar position="static">
               <Toolbar>
                 <Link href={"/"} passHref>
-                  <Avatar srcSet="../logo.svg" />
+                  <Avatar src="/logo.svg" />
                 </Link>
                 <Link href={"/"} passHref>
                   <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
@@ -139,7 +148,7 @@ const MyApp = (props: { Component: any; emotionCache?: EmotionCache; pageProps: 
                       </Link>
                     </>
                   )}
-                <SwitchTheme />
+                <SwitchTheme mode={mode} />
               </Toolbar>
             </AppBar>
           </Box>

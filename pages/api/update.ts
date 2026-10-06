@@ -18,10 +18,9 @@ const register = async (req: NextApiRequest, res: NextApiResponse) => {
     });
     res.status(200).json({});
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({
-      //@ts-expect-error
-      message: error.message
+      message: 'Something went wrong, please try again later'
     });
   }
 }

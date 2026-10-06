@@ -57,7 +57,7 @@ const SignUp = () => {
       await axios.post('../api/update', data);
       await router.push('/chat/');
     } catch (error) {
-      if (error.response.status === 409) {
+      if (error.response?.status === 409) {
         setBackdrop(false);
         setSnackbar(true);
       }
